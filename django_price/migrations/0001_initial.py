@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=25)),
-                ('created', models.DateTimeField(default=datetime.datetime.now, editable=False)),
+                ('created', models.DateTimeField(default=datetime.datetime.now)),
                 ('modified', models.DateTimeField(auto_now=True)),
             ],
             options={
@@ -25,7 +25,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='LinearTax',
             fields=[
-                ('tax_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='django_price.Tax')),
+                ('tax_ptr', models.OneToOneField(
+                    parent_link=True, auto_created=True, primary_key=True,
+                    serialize=False, to='django_price.Tax', on_delete = models.CASCADE)),
                 ('percent', models.DecimalField(max_digits=6, decimal_places=3)),
             ],
             options={
@@ -36,7 +38,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='MultiTax',
             fields=[
-                ('tax_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='django_price.Tax')),
+                ('tax_ptr', models.OneToOneField(
+                    parent_link=True, auto_created=True, primary_key=True, serialize=False,
+                    to='django_price.Tax', on_delete = models.CASCADE)),
             ],
             options={
                 'abstract': False,
@@ -46,7 +50,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='tax',
             name='_poly_ct',
-            field=models.ForeignKey(related_name='+', editable=False, to='contenttypes.ContentType'),
+            field=models.ForeignKey(related_name='+', editable=False,
+                                    to='contenttypes.ContentType', on_delete = models.CASCADE),
         ),
         migrations.AddField(
             model_name='multitax',
